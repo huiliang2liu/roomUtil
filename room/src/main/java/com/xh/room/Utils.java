@@ -100,6 +100,7 @@ public class Utils {
     private static final int ADW_TYPE = 12;
     private static final int ZTE_TYPE = 13;
     private static final int EVERYTHING_TYPE = 14;
+    private static final int HONOR_TYPE = 15;
 
     public static int ROOM_TYPE = DEFAULT_TYPE;
 
@@ -118,7 +119,15 @@ public class Utils {
         } catch (PackageManager.NameNotFoundException e) {
         }
         if (Build.MANUFACTURER.equalsIgnoreCase("HUAWEI")) {
+            if (Build.BRAND.equalsIgnoreCase("HONOR")) {
+                ROOM_TYPE = HONOR_TYPE;
+                return;
+            }
             ROOM_TYPE = HUA_WEI_TYPE;
+            return;
+        }
+        if (Build.MANUFACTURER.equalsIgnoreCase("HONOR")) {
+            ROOM_TYPE = HONOR_TYPE;
             return;
         }
         if (Build.MANUFACTURER.equalsIgnoreCase("Xiaomi")) {
@@ -158,6 +167,10 @@ public class Utils {
             return;
         String packageName = resolveInfo.activityInfo.packageName;
         if (HUA_WEI.indexOf(packageName) >= 0) {
+            if (Build.BRAND.equalsIgnoreCase("HONOR")) {
+                ROOM_TYPE = HONOR_TYPE;
+                return;
+            }
             ROOM_TYPE = HUA_WEI_TYPE;
             return;
         }
@@ -218,8 +231,11 @@ public class Utils {
     public static String room() {
         if (ROOM_TYPE == SAM_SUNG_TYPE)
             return "SamSung";
-        if (ROOM_TYPE == HUA_WEI_TYPE)
+        if (ROOM_TYPE == HUA_WEI_TYPE) {
+            if (Build.BRAND.equalsIgnoreCase("HONOR"))
+                return "Honor";
             return "HuaWei";
+        }
         if (ROOM_TYPE == XIAO_MI_TYPE)
             return "Xiaomi";
         if (ROOM_TYPE == OPPO_TYPE)
@@ -255,6 +271,10 @@ public class Utils {
 
     public static boolean isHuaWei() {
         return ROOM_TYPE == HUA_WEI_TYPE;
+    }
+
+    public static boolean isHonor() {
+        return ROOM_TYPE == HONOR_TYPE;
     }
 
     public static boolean isXiaoMi() {
